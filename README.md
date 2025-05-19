@@ -1,0 +1,62 @@
+![IMG_6463](https://github.com/user-attachments/assets/515b8a6a-b1a0-4aa4-9bec-db156c238425)
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>アイコンシューティング</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #222; color: white; text-align: center; font-family: sans-serif; }
+    #score { font-size: 2em; padding: 10px; }
+    #gameArea { position: relative; width: 100vw; height: 100vh; }
+    .target {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="score">スコア: 0</div>
+  <div id="gameArea"></div>
+
+  <script>
+    const gameArea = document.getElementById('gameArea');
+    const scoreDisplay = document.getElementById('score');
+    let score = 0;
+    let timeLeft = 30;
+
+    const iconURL = "icon.png"; // アップロードした画像のファイル名
+
+    function spawnTarget() {
+      const img = document.createElement('img');
+      img.src = iconURL;
+      img.className = 'target';
+      img.style.left = Math.random() * (window.innerWidth - 80) + 'px';
+      img.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+
+      img.onclick = () => {
+        score++;
+        scoreDisplay.textContent = 'スコア: ' + score;
+        img.remove();
+      };
+
+      gameArea.appendChild(img);
+
+      setTimeout(() => img.remove(), 1500);
+    }
+
+    function gameLoop() {
+      if (timeLeft > 0) {
+        spawnTarget();
+        setTimeout(gameLoop, 600);
+      } else {
+        alert(`ゲーム終了！スコア: ${score}`);
+      }
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
